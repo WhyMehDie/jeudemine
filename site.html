@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Mines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #game-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .cell {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            margin: 10px;
+            border: 2px solid #333;
+            font-size: 24px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 60px;
+            background-color: #f0f0f0;
+        }
+        .mine {
+            background-color: red;
+            color: white;
+        }
+        .safe {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jeu de Mines</h1>
+    <div id="game-container">
+        <p>Cliquez sur une case pour voir si elle contient une mine !</p>
+        <div id="grid"></div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        const numCells = 6;
+        let mines = Array(numCells).fill(false).map(() => Math.random() < 0.5);
+
+        function revealCell(index) {
+            const cell = document.getElementById(`cell-${index}`);
+            if (mines[index]) {
+                cell.textContent = '💣';
+                cell.classList.add('mine');
+            } else {
+                cell.textContent = '✔';
+                cell.classList.add('safe');
+            }
+            cell.onclick = null;
+        }
+
+        function createGrid() {
+            for (let i = 0; i < numCells; i++) {
+                let cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.id = `cell-${i}`;
+                cell.onclick = () => revealCell(i);
+                grid.appendChild(cell);
+            }
+        }
+
+        createGrid();
+    </script>
+</body>
+</html>
